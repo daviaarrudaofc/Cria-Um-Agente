@@ -9,7 +9,7 @@ Este projeto cria um agente para automatizar tarefas pelo terminal. Ele consegue
 
 ## Por que essa base
 
-Para comecar, esta base usa LangChain com um provedor configuravel. O padrao do `.env.example` esta como xAI/Grok porque a API e compativel com OpenAI e funciona bem para um agente de terminal.
+Para comecar, esta base usa LangChain com um provedor configuravel. O padrao do `.env.example` esta como Groq porque a API e compativel com OpenAI e funciona bem para um agente de terminal.
 
 Voce tambem pode usar OpenAI trocando `MODEL_PROVIDER=openai` e preenchendo `OPENAI_API_KEY`.
 
@@ -22,7 +22,7 @@ pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-Depois edite `.env` e coloque sua `XAI_API_KEY`, ou configure OpenAI se preferir.
+Depois edite `.env` e coloque sua `GROQ_API_KEY`, ou configure OpenAI se preferir.
 
 ## Rodar
 
@@ -44,19 +44,19 @@ Com `DOCUMENT_MEMORY_MODE=keyword`, o agente pesquisa localmente nos arquivos da
 
 Se quiser memoria vetorial depois, use `DOCUMENT_MEMORY_MODE=vector`, preencha `OPENAI_API_KEY` e rode `/ingest`. A memoria vetorial fica em `data/vectorstore`.
 
-## Usar Grok/xAI
+## Usar Groq
 
 No `.env`:
 
 ```env
-MODEL_PROVIDER=xai
-XAI_API_KEY=sua_chave_aqui
-XAI_BASE_URL=https://api.x.ai/v1
-XAI_MODEL=grok-4.3
+MODEL_PROVIDER=groq
+GROQ_API_KEY=sua_chave_aqui
+GROQ_BASE_URL=https://api.groq.com/openai/v1
+GROQ_MODEL=llama-3.3-70b-versatile
 DOCUMENT_MEMORY_MODE=keyword
 ```
 
-A disponibilidade de creditos gratis e limites depende da sua conta na xAI. Quando os creditos acabarem, as chamadas do agente vao falhar ate a cota resetar ou voce adicionar credito.
+A disponibilidade de creditos gratis e limites depende da sua conta na Groq. Quando os creditos acabarem, as chamadas do agente vao falhar ate a cota resetar ou voce adicionar credito.
 
 ## Banco de dados
 

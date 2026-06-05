@@ -35,9 +35,9 @@ def resolve_path(value: str, default: Path) -> Path:
 load_dotenv(ROOT / ".env")
 
 DATABASE_PATH = resolve_path(os.getenv("DATABASE_PATH", ""), DATA_DIR / "agent.db")
-MODEL_PROVIDER = os.getenv("MODEL_PROVIDER", "xai").strip().lower()
-XAI_BASE_URL = os.getenv("XAI_BASE_URL", "https://api.x.ai/v1")
-XAI_MODEL = os.getenv("XAI_MODEL", "grok-4.3")
+MODEL_PROVIDER = os.getenv("MODEL_PROVIDER", "groq").strip().lower()
+GROQ_BASE_URL = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
 OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 DOCUMENT_MEMORY_MODE = os.getenv("DOCUMENT_MEMORY_MODE", "keyword").strip().lower()
@@ -301,22 +301,22 @@ def build_agent():
 
 
 def build_chat_model() -> ChatOpenAI:
-    if MODEL_PROVIDER == "xai":
+    if MODEL_PROVIDER == "groq":
         return ChatOpenAI(
-            model=XAI_MODEL,
-            api_key=os.getenv("XAI_API_KEY"),
-            base_url=XAI_BASE_URL,
+            model=GROQ_MODEL,
+            api_key=os.getenv("GROQ_API_KEY"),
+            base_url=GROQ_BASE_URL,
             temperature=0,
             timeout=3600,
         )
     if MODEL_PROVIDER == "openai":
         return ChatOpenAI(model=OPENAI_MODEL, temperature=0)
-    raise ValueError("MODEL_PROVIDER deve ser 'xai' ou 'openai'.")
+    raise ValueError("MODEL_PROVIDER deve ser 'groq' ou 'openai'.")
 
 
 def missing_api_key_message() -> str | None:
-    if MODEL_PROVIDER == "xai" and not os.getenv("XAI_API_KEY"):
-        return "Defina XAI_API_KEY no arquivo .env antes de rodar o agente com Grok."
+    if MODEL_PROVIDER == "groq" and not os.getenv("GROQ_API_KEY"):
+        return "Defina GROQ_API_KEY no arquivo .env antes de rodar o agente com Groq."
     if MODEL_PROVIDER == "openai" and not os.getenv("OPENAI_API_KEY"):
         return "Defina OPENAI_API_KEY no arquivo .env antes de rodar o agente com OpenAI."
     if DOCUMENT_MEMORY_MODE == "vector" and not os.getenv("OPENAI_API_KEY"):
